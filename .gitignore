@@ -1,0 +1,5 @@
+# all folders starting with _ are local
+_*/
+
+.vscode/settings.json
+exts.deps.generated.kit

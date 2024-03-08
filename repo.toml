@@ -1,0 +1,30 @@
+[repo]
+import_configs = ["${root}/_repo/deps/repo_kit_tools/kit-template/repo.toml"]
+name = "samples-clashdetection"
+
+[repo_build.premake]
+enabled = false
+
+[repo_build.build]
+enabled = false
+
+[repo_build]
+default_build_config = ["release", "debug"]
+vscode.python_env.PYTHONPATH= [
+    "$$$${PYTHONPATH}",
+    "${env:PYTHONPATH}",
+    "$root/_build/$platform/$config/kit/exts/*",
+    "$root/_build/$platform/$config/extsClashDetection/*",
+    "$root/_build/$platform/$config/extsSamples/*",
+]
+pre_build.commands = []
+post_build.commands = []
+docker.enabled = false
+
+[repo_build.fetch]
+packman_target_files_to_pull = [
+    "${root}/deps/target-deps.packman.xml",
+    "${root}/deps/host-deps.packman.xml",
+]
+after_pull_commands = []
+pip.files_to_pull = []

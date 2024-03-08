@@ -1,0 +1,19 @@
+link = [
+    ["source/apps", "_build/$platform/$config/apps"],
+    ["source/extensions", "_build/$platform/$config/exts"],
+    ["_build/target-deps/clash_detection_sdk/extensions", "_build/$platform/$config/extsClashDetection"],
+]
+
+[windows-x86_64]
+copy = [
+    ["source/run/omni.clashdetection.sample.kit.bat", "_build/$platform/$config/"],
+]
+link = [
+]
+
+[linux-x86_64]
+copy = [
+    ["source/run/omni.clashdetection.sample.kit.sh", "_build/$platform/$config/"],
+]
+link = [
+]
