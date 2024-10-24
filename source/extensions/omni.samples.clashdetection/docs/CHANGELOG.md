@@ -2,6 +2,18 @@
 
 This document records all notable changes to ``Clash Detection Samples`` extension.
 
+## [106.2.0] - 2024-10-07
+
+Version bump.
+
+## [106.1.1] - 2024-09-10
+
+Version bump.
+
+## [106.1.0] - 2024-09-06
+
+Version bump.
+
 ## [106.0.11] - 2024-06-14
 
 Version bump.

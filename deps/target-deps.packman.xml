@@ -1,8 +1,8 @@
 <project toolsVersion="5.0">
   <dependency name="kit-kernel" linkPath="../_build/${platform}/${config}/kit" tags="${config} non-redist">
-    <package name="kit-kernel" version="106.0.0+release.118399.fcefe91f.gl.${platform}.release" platforms="windows-x86_64 linux-x86_64" />
+    <package name="kit-kernel" version="106.2.0+release.146576.9df8bbcd.gl.${platform}.release" platforms="windows-x86_64 linux-x86_64" />
   </dependency>
   <dependency name="clash_detection_sdk" linkPath="../_build/target-deps/clash_detection_sdk">
-    <package name="clash_detection_sdk" version="106.0.11-release_106.0-164f18ec-${platform}-release" platforms="windows-x86_64 linux-x86_64" />
+    <package name="clash_detection_sdk" version="106.2.0-release_106.2-5da2f2e9-${platform}-release" platforms="windows-x86_64 linux-x86_64" />
   </dependency>
 </project>
