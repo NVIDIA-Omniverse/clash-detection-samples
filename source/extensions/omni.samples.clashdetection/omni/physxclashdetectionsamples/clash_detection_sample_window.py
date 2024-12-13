@@ -76,6 +76,23 @@ class ClashDetectionSamplesWindow(ui.Window):
         if hasattr(os, "startfile"):
             os.startfile(self._temp_dir_path)
 
+    def _run_clash_processor_on_sample_stage_dups(self):
+        html_path_name = str(pathlib.Path(self._temp_dir_path).joinpath("dups_sample_export.html"))
+        json_path_name = str(pathlib.Path(self._temp_dir_path).joinpath("dups_sample_export.json"))
+
+        cdp = ClashDetectionProcessor(
+            stage_path_name=self._stage_path_name,
+            html_path_name=html_path_name,
+            json_path_name=json_path_name,
+            query_name="Example Search for Duplicates Query",
+            comment="A static clash query designed to identify identical meshes with identical transformations fully overlapping each other.",
+            search_for_duplicates=True
+        )
+        cdp.run()
+
+        if hasattr(os, 'startfile'):
+            os.startfile(self._temp_dir_path)
+
     def _open_sample_stage(self):
         async def open_sample_stage():
             import omni.usd
@@ -88,6 +105,11 @@ class ClashDetectionSamplesWindow(ui.Window):
             with ui.VStack():
                 with ui.CollapsableFrame("Available Clash Detection Samples - Observe the console output, as there is no UI in use.", height=0):
                     with ui.VStack():
+                        with ui.HStack(height=0):
+                            ui.Spacer(width=5)
+                            ui.Button("Run", width=100, clicked_fn=self._run_clash_processor_on_sample_stage_dups)
+                            ui.Spacer(width=10)
+                            ui.Label("Execute Clash Processor configured to create and run a static query on the sample scene to identify identical meshes with identical transformations fully overlapping each other. Export results.")
                         with ui.HStack(height=0):
                             ui.Spacer(width=5)
                             ui.Button("Run", width=100, clicked_fn=self._run_clash_processor_on_sample_stage_static)

@@ -2,34 +2,22 @@
 
 This document records all notable changes to ``Clash Detection Samples`` extension.
 
-## [106.2.0] - 2024-10-07
+To view the changelog for the ``Clash Detection SDK``, please refer to the [Online Omniverse Documentation](https://docs.omniverse.nvidia.com/extensions/latest/ext_clash-detection/clash-detection-changelog.html).
 
-Version bump.
+## [106.4.0] - 2024-12-05
+### Added
+Initial Release
 
-## [106.1.1] - 2024-09-10
+- Added a new example query to illustrate the duplicate mesh detection feature.
 
-Version bump.
+## [106.1.0] - 2024-02-29
 
-## [106.1.0] - 2024-09-06
+### Added
+Initial Release
 
-Version bump.
+### Changed
 
-## [106.0.11] - 2024-06-14
+### Removed
 
-Version bump.
 
-## [106.0.10] - 2024-06-07
 
-Version bump.
-
-## [106.0.9] - 2024-05-30
-
-Version bump.
-
-## [106.0.8] - 2024-05-15
-
-Version bump.
-
-## [106.0.7] - 2024-03-22
-
-Initial Release.

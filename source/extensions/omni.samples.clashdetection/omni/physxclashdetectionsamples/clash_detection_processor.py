@@ -39,6 +39,7 @@ class ClashDetectionProcessor:
         json_path_name: str = '',
         query_name: str = '',
         comment: str = '',
+        search_for_duplicates: bool = False,
     ):
         """
         Parameters:
@@ -54,6 +55,7 @@ class ClashDetectionProcessor:
         json_path_name: str - full path to JSON file if also export to JSON is needed. No clash images will be exported.
         query_name: str - custom name for the clash detection query which will be generated based on parameters above.
         comment: str - custom comment for the clash detection query which will be generated based on parameters above.
+        search_for_duplicates: True to search for static identical meshes with identical transformations (fully overlapping each other). Overrules dynamic setting.
         """
         self._stage_path_name = stage_path_name
         self._html_path_name = html_path_name
@@ -63,11 +65,12 @@ class ClashDetectionProcessor:
             object_a_path=object_a_path,
             object_b_path=object_b_path,
             clash_detect_settings={
-                SettingId.SETTING_LOGGING.name: logging is True,
-                SettingId.SETTING_TOLERANCE.name: float(tolerance),
+                SettingId.SETTING_LOGGING.name: logging,
+                SettingId.SETTING_TOLERANCE.name: tolerance,
                 SettingId.SETTING_DYNAMIC.name: dynamic,
-                SettingId.SETTING_DYNAMIC_START_TIME.name: float(start_time),
-                SettingId.SETTING_DYNAMIC_END_TIME.name: float(end_time),
+                SettingId.SETTING_DYNAMIC_START_TIME.name: start_time,
+                SettingId.SETTING_DYNAMIC_END_TIME.name: end_time,
+                SettingId.SETTING_DUP_MESHES.name: search_for_duplicates,
             },
             comment=comment
         )
@@ -79,14 +82,16 @@ class ClashDetectionProcessor:
         Returns: True on success, False otherwise.
         """
         column_defs = [
-            ExportColumnDef(0, 'Clash ID'),
-            ExportColumnDef(1, 'Tolerance'),
-            ExportColumnDef(2, 'Overlapping Tris', True),
-            ExportColumnDef(3, 'Clash Start'),
-            ExportColumnDef(4, 'Clash End'),
-            ExportColumnDef(5, 'Clashing Frames', True),
-            ExportColumnDef(6, 'Object A'),
-            ExportColumnDef(7, 'Object B'),
+            ExportColumnDef(0, "Clash ID"),
+            ExportColumnDef(1, "Min Distance", True),
+            ExportColumnDef(2, "Tolerance", True),
+            ExportColumnDef(3, "Overlap Tris", True),
+            ExportColumnDef(4, "Clash Start"),
+            ExportColumnDef(5, "Clash End"),
+            ExportColumnDef(6, "Records", True),
+            ExportColumnDef(7, "Object A"),
+            ExportColumnDef(8, "Object B"),
+            ExportColumnDef(9, "Comment"),
         ]
 
         overlaps = clash_data.find_all_overlaps_by_query_id(self._query.identifier, False)
@@ -95,13 +100,15 @@ class ClashDetectionProcessor:
         rows = [
             [
                 o.overlap_id,
+                f"{o.min_distance:.3f}",
                 f"{o.tolerance:.3f}",
                 str(o.overlap_tris),
                 f"{o.start_time:.3f}",
                 f"{o.end_time:.3f}",
                 str(o.num_records),
                 o.object_a_path,
-                o.object_b_path
+                o.object_b_path,
+                o.comment,
             ]
             for o in overlaps.values()
         ]
@@ -218,12 +225,17 @@ class ClashDetectionProcessor:
 
         print("Setting up clash detection engine...")
         clash_detect = ClashDetection()
-        if not clash_detect.set_scope(stage, self._query.object_a_path, self._query.object_b_path):
-            print("Failed to set clash detection scope.")
-            return False
         if not clash_detect.set_settings(self._query.clash_detect_settings, stage):
             print("Failed to set clash detection settings.")
-            return False
+            return 0
+        if not clash_detect.set_scope(
+            stage,
+            self._query.object_a_path,
+            self._query.object_b_path,
+            self._query.clash_detect_settings.get(SettingId.SETTING_DUP_MESHES.name, False)
+        ):
+            print("Failed to set clash detection scope.")
+            return 0
 
         num_overlaps = self._detect_overlaps(stage, clash_detect, clash_data)
 

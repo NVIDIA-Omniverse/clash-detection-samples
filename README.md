@@ -71,6 +71,7 @@ Git Installed: If Git is not already installed on your system, you can download 
 We strongly recommend you to watch the [Getting Started video](https://docs.omniverse.nvidia.com/extensions/latest/ext_clash-detection.html#clashdetection) before working with Clash Detection.
 
 Explore documentation and video tutorial for the Clash Detection SDK online:
+- [Clash Detection SDK Changelog](https://docs.omniverse.nvidia.com/extensions/latest/ext_clash-detection/clash-detection-changelog.html)
 - [Introduction, Video Tutorial & Installation](https://docs.omniverse.nvidia.com/extensions/latest/ext_clash-detection.html#clashdetection)
 - [How to Work with the UI](https://docs.omniverse.nvidia.com/extensions/latest/ext_clash-detection/clash-detection-ui.html)
 - [How to Work with the Clash Detection Dedicated Viewport](https://docs.omniverse.nvidia.com/extensions/latest/ext_clash-detection/clash-detection-viewport.html)
