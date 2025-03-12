@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright (c) 2024 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-FileCopyrightText: Copyright (c) 2024-2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: LicenseRef-NvidiaProprietary
 #
 # NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
@@ -13,6 +13,7 @@ import tempfile
 import pathlib
 import asyncio
 import omni.ui as ui
+import omni.client
 
 from .clash_detection_processor import ClashDetectionProcessor
 
@@ -93,6 +94,35 @@ class ClashDetectionSamplesWindow(ui.Window):
         if hasattr(os, 'startfile'):
             os.startfile(self._temp_dir_path)
 
+    def _run_clash_bake_on_sample_stage_dynamic(self):
+        extension = "usd"
+        temp_path = f"{self._temp_dir_path}/BaseStage"
+        layer_meshes_path = temp_path + f"Over_CLASH_MESHES.{extension}"
+        layer_materials_path = temp_path + f"Over_CLASH_MATERIALS.{extension}"
+
+        cdp = ClashDetectionProcessor(
+            stage_path_name=self._stage_path_name,
+            object_a_path="/Root/STATION_TIME_SAMPLED",
+            object_b_path="/Root/Xform_Primitives",
+            tolerance=5,
+            dynamic=True,
+            start_time=0,
+            end_time=15,
+            logging=False,
+            clash_bake=True,
+            clash_bake_meshes_layer_path=layer_meshes_path,
+            clash_bake_meshes_material_path=layer_materials_path,
+            query_name="Clash Bake Dynamic Query",
+            comment="A dynamic clash query designed to generate data to be baked using Clash Layer Bake API.",
+        )
+        cdp.run()
+
+        # For testing purposes only, copy the baked stage to the temp directory, so it can be easily composed
+        omni.client.copy(self._stage_path_name, f"{self._temp_dir_path}/{os.path.basename(self._stage_path_name)}")
+
+        if hasattr(os, "startfile"):
+            os.startfile(self._temp_dir_path)
+
     def _open_sample_stage(self):
         async def open_sample_stage():
             import omni.usd
@@ -120,6 +150,11 @@ class ClashDetectionSamplesWindow(ui.Window):
                             ui.Button("Run", width=100, clicked_fn=self._run_clash_processor_on_sample_stage_dynamic)
                             ui.Spacer(width=10)
                             ui.Label("Execute Clash Processor configured to create and run a dynamic query on the sample scene to identify instances where the yellow platform's animation collides with the gray block. Export results.")
+                        with ui.HStack(height=0):
+                            ui.Spacer(width=5)
+                            ui.Button("Run", width=100, clicked_fn=self._run_clash_bake_on_sample_stage_dynamic)
+                            ui.Spacer(width=10)
+                            ui.Label("Bake sample stage clashes to a new layer headlessly.")
                 with ui.CollapsableFrame("Available Clash Detection Sample Stages:", height=0):
                     with ui.HStack(height=0):
                         ui.Spacer(width=5)

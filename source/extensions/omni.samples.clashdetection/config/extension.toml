@@ -1,5 +1,5 @@
 [package]
-version = "106.4.0"
+version = "106.5.0"
 
 # The title and description fields are primarily for displaying extension info in UI
 title = "Clash Detection Samples"
