@@ -4,6 +4,19 @@ This repository contains Python based clash detection samples.
 
 It leverages NVIDIA Omniverse Kit and the Clash Detection SDK, which get downloaded upon building the project.
 
+# :warning: Deprecation Notice
+
+**Important: This repository is deprecated and will be archived on February 2, 2026.**
+
+**To continue using clash detection functionality, please download the Clash Detection SDK directly from NVIDIA NGC.**
+
+Currently recommended version:
+
+- [Clash Detection SDK for Windows (v107.3.17)](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/omniverse/resources/clash-detection-sdk-windows-pb25h1?version=107.3.17)
+- [Clash Detection SDK for Linux (v107.3.17)](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/omniverse/resources/clash-detection-sdk-linux-pb25h1?version=107.3.17)
+
+_Note: For best results, use the newest available version of the SDK if a newer release is available._
+
 # Prerequisites and Environment Setup
 
 To kickstart your development journey, your system should adhere to the following specifications:
